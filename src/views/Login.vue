@@ -6,16 +6,16 @@
                 <img src="../assets/logo.png" alt="logo">
             </div>
 <!--          登陆表单区域-->
-          <el-form label-width="80px" class="login_form">
-            <el-form-item label="用户名：">
-              <el-input v-model="form.name" prefix-icon="iconfont icon-user"></el-input>
+          <el-form ref="loginFromRef" :model="loginForm" :rules="loginFormRules" label-width="80px" class="login_form">
+            <el-form-item label="用户名：" prop="username">
+              <el-input v-model="loginForm.username" prefix-icon="iconfont iconuser"></el-input>
             </el-form-item>
-            <el-form-item label="密 码：">
-              <el-input v-model="form.password" prefix-icon="iconfont icon-3702mima"></el-input>
+            <el-form-item label="密 码：" prop="password">
+              <el-input v-model="loginForm.password" prefix-icon="iconfont iconi-pwd" show-password></el-input>
             </el-form-item>
             <el-form-item class="btns">
-              <el-button type="primary">登陆</el-button>
-              <el-button type="info">取消</el-button>
+              <el-button type="primary" @click="login">登陆</el-button>
+              <el-button type="info" @click="resetLoginForm">重置</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -27,7 +27,46 @@ export default {
   name: 'login',
   data () {
     return {
-      form: {}
+      // 登陆表单数据
+      loginForm: {
+        username: 'admin',
+        password: '123456'
+      },
+      loginFormRules: {
+        // 定义用户名和密码的验证规则
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    // 重置登陆表单
+    resetLoginForm () {
+      // console.log(this)
+      this.$refs.loginFromRef.resetFields()
+    },
+    // 登陆
+    login () {
+      this.$refs.loginFromRef.validate(async (valid) => {
+        // 点 击登陆按钮的校验
+        // console.log(valid)
+        if (!valid) return false
+        // 这个意思是将data 重构为res
+        const { data: res } = await this.$http.post('/login', this.loginForm)
+        if (res.meta.status !== 200) return this.$message.error('用户名或密码错误，登陆失败！')
+        this.$message.success('登陆成功！')
+        // 1.将token保存在sessionStorage中
+        // 2.生效时间，关闭浏览器后就没有了
+        window.sessionStorage.setItem('token', res.data.token)
+        // 3.路由跳转
+        this.$router.push('/home')
+      })
     }
   }
 }
