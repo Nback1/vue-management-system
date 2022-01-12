@@ -21,7 +21,9 @@ import {
   Card,
   Pagination,
   Switch,
-  Tooltip
+  Tooltip,
+  Dialog,
+  Popconfirm
 } from 'element-ui'
 
 Vue.use(Button)
@@ -45,5 +47,7 @@ Vue.use(Card)
 Vue.use(Pagination)
 Vue.use(Switch)
 Vue.use(Tooltip)
+Vue.use(Dialog)
+Vue.use(Popconfirm)
 // 全局挂再到vue上，这样每一个都可以使用this访问
 Vue.prototype.$message = Message
