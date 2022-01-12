@@ -5,10 +5,13 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 /*卡片主体*/
 .el-card {
     margin: 20px;
+    height: 80vh;
+    overflow-y: scroll;
 }
 .el-input {
     /*width: 30%;*/
