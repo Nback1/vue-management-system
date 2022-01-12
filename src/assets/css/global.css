@@ -6,3 +6,16 @@ body,
     margin: 0;
     padding: 0;
 }
+/*卡片主体*/
+.el-card {
+    margin: 20px;
+}
+.el-input {
+    /*width: 30%;*/
+}
+
+/*分页*/
+.el-pagination {
+    margin: 15px;
+    float: right;
+}

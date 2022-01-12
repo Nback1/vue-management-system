@@ -18,17 +18,23 @@
           unique-opened
           :collapse="isCollapse"
           :collapse-transition="false" router
+          :default-active="activePath"
           >
 <!--            一级菜单-->
 <!--            1.index和key的动态绑定-->
-          <el-submenu :index="'/' + item.path" v-for="item in menuList" :key="item.id">
+          <el-submenu :index="'/' + item.path"
+                      v-for="item in menuList"
+                      :key="item.id">
 <!--              一级菜单模版区-->
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{item.authName}}</span>
             </template>
 <!--              二级菜单-->
-            <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item :index="'/' + subItem.path"
+                          v-for="subItem in item.children"
+                          :key="subItem.id"
+                          @click="saveNavState('/' + subItem.path)">
 <!--              二级菜单模版区-->
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -37,7 +43,9 @@
             </el-menu-item>
           </el-submenu>
         </el-menu>
-        <div class="toggle-button" :style="'width:' + getWidth" @click="toggleCollapse">&nbsp;&nbsp;&lt;&nbsp;&nbsp;</div>
+        <div class="toggle-button"
+             :style="'width:' + getWidth"
+             @click="toggleCollapse">&nbsp;&nbsp;&lt;&nbsp;&nbsp;</div>
       </el-aside>
 <!--      内容-->
       <el-main>
@@ -55,7 +63,9 @@ export default {
       // 侧边栏功能菜单项
       menuList: [],
       // 用于展开和收起菜单项
-      isCollapse: false
+      isCollapse: false,
+      // 用于保存当前激活的菜单项
+      activePath: ''
     }
   },
   computed: {
@@ -71,11 +81,17 @@ export default {
       const { data: res } = await this.$http.get('/menus')
       if (res.meta.status !== 200) this.$message.error('请求菜单列表失败' + res.meta.msg)
       this.menuList = res.data
-      console.log(res)
+      // console.log(res)
     },
     // 点击按钮将菜单折叠与展开
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
+    },
+    // 保存菜单栏的激活状态
+    saveNavState (activePath) {
+      // 我觉得这里不用存，只需要赋值一下就行了
+      // window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   }
 }
