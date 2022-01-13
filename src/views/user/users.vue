@@ -3,9 +3,8 @@
 <!--    面包屑导航-->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/welcome' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-      <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
 <!--    卡片视图-->
     <el-card>
@@ -73,16 +72,16 @@
         width="30%">
 <!--        内容主体-->
         <el-form :model="addUserForm" :rules="addUserFormRules" ref="addUserFormRef" label-width="70px">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="用户名">
             <el-input v-model="addUserForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="密码">
             <el-input v-model="addUserForm.password" show-password></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item label="邮箱">
             <el-input v-model="addUserForm.email"></el-input>
           </el-form-item>
-          <el-form-item label="手机号" prop="mobile">
+          <el-form-item label="手机号">
             <el-input v-model="addUserForm.mobile"></el-input>
           </el-form-item>
         </el-form>

@@ -6,11 +6,13 @@ body,
     margin: 0;
     padding: 0;
     overflow: hidden;
+    /*最小宽度*/
+    /*min-width: 1366px;*/
 }
 /*卡片主体*/
 .el-card {
     margin: 20px;
-    height: 80vh;
+    height: 82vh;
     overflow-y: scroll;
 }
 .el-input {
@@ -21,4 +23,8 @@ body,
 .el-pagination {
     margin: 15px;
     float: right;
+}
+/*隐藏滑动条 针对chrome和safari*/
+::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
 }
