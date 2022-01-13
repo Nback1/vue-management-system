@@ -24,7 +24,10 @@ import {
   Tooltip,
   Dialog,
   Popconfirm,
-  Tag
+  Tag,
+  Tree,
+  Select,
+  Option
 } from 'element-ui'
 
 Vue.use(Button)
@@ -51,5 +54,8 @@ Vue.use(Tooltip)
 Vue.use(Dialog)
 Vue.use(Popconfirm)
 Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Select)
+Vue.use(Option)
 // 全局挂再到vue上，这样每一个都可以使用this访问
 Vue.prototype.$message = Message

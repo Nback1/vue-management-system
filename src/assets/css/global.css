@@ -28,3 +28,8 @@ body,
 ::-webkit-scrollbar {
     display: none; /* Chrome Safari */
 }
+
+.el-dialog {
+    max-height: 80vh;
+    overflow-y: scroll;
+}
