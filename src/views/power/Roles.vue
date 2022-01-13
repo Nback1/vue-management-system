@@ -60,7 +60,7 @@
           <template slot-scope="scope">
             <!--            修改-->
             <el-tooltip class="item" effect="dark" content="修改权限" placement="top" :enterable="false">
-              <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row)"></el-button>
             </el-tooltip>
             <!--          删除-->
             <el-tooltip class="item" effect="dark" content="删除权限" placement="top" :enterable="false">
@@ -76,6 +76,25 @@
         </el-table-column>
       </el-table>
 <!--      编辑角色信息对话框-->
+      <el-dialog title="添加角色" :visible.sync="editDialogVisible">
+        <el-form :model="editRoleForm" :rules="editRoleFormRules" ref="editRoleFormRef"
+                 label-width="80px">
+          <el-form-item label="角色名称" prop="id">
+            <el-input v-model="editRoleForm.id" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="角色名称" prop="roleName">
+            <el-input v-model="editRoleForm.roleName"></el-input>
+          </el-form-item>
+          <el-form-item label="角色描述">
+            <el-input v-model="editRoleForm.roleDesc"></el-input>
+          </el-form-item>
+        </el-form>
+        <!--        内容底部-->
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editRole">确 定</el-button>
+        </span>
+      </el-dialog>
 <!--      添加角色的对话框-->
       <el-dialog title="添加角色" :visible.sync="addDialogVisible">
         <el-form :model="addRoleForm" :rules="addRoleFormRules" ref="addRoleFormRef"
@@ -146,7 +165,21 @@ export default {
       // 默认选中的id值
       defaultKeys: [],
       // 保存当前要分配的角色id
-      roleId: 0
+      roleId: 0,
+      // 修改角色信息对话框
+      editRoleForm: {
+        id: '',
+        roleName: '',
+        roleDesc: ''
+      },
+      // 修改角色信息规则
+      editRoleFormRules: {
+        roleName: [
+          { required: true, message: '请输入角色名称！', trigger: 'blur' }
+        ]
+      },
+      // 修改角色信息对话框
+      editDialogVisible: false
 
     }
   },
@@ -230,6 +263,21 @@ export default {
       this.$message.success('分配权限成功！')
       this.getrolesList()
       this.setRightDialogVisible = false
+    },
+    // 修改角色信息
+    editRole () {
+      this.$refs.editRoleFormRef.validate(async valid => {
+        if (!valid) return false
+        const { data: res } = await this.$http.put(`roles/${this.editRoleForm.id}`, this.editRoleForm)
+        if (res.meta.status !== 200) return this.$message.error('修改角色失败！')
+        this.getrolesList()
+        this.editDialogVisible = false
+      })
+    },
+    // 展示修改对话框
+    showEditDialog (roleInfo) {
+      this.editRoleForm = roleInfo
+      this.editDialogVisible = true
     }
   }
 }
