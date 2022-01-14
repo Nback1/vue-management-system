@@ -268,7 +268,11 @@ export default {
     editRole () {
       this.$refs.editRoleFormRef.validate(async valid => {
         if (!valid) return false
-        const { data: res } = await this.$http.put(`roles/${this.editRoleForm.id}`, this.editRoleForm)
+        const { data: res } = await this.$http.put(`roles/${this.editRoleForm.id}`,
+          {
+            roleName: this.editRoleForm.roleName,
+            roleDesc: this.editRoleForm.roleDesc
+          })
         if (res.meta.status !== 200) return this.$message.error('修改角色失败！')
         this.getrolesList()
         this.editDialogVisible = false

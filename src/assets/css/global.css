@@ -33,3 +33,13 @@ body,
     max-height: 80vh;
     overflow-y: scroll;
 }
+
+/*
+刚开始使用了
+el-cascader {}  =》发现这是级联选择器的类选择器
+el-cascader-panel {}  =》发现这才是级联选择器的面板选择器
+解决级联面板高度太大，显示出现问题，转化为滑动条查看*/
+.el-cascader-panel {
+    max-height: 200px;
+    overflow-y: scroll;
+}
