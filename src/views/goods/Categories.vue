@@ -17,7 +17,7 @@
       <tree-table :data="cateList" :columns="columns"
                   :selection-type="false" :expand-type="false"
                   :show-index="true" index-text="#"
-                  :border="true" class="treeTable">
+                  :border="true" class="treeTable" is-flod>
 <!--        是否有效-->
         <template slot="isok" slot-scope="scope">
           <i class="el-icon-success" v-if="!scope.row.cat_deleted"
@@ -34,9 +34,14 @@
 <!--        操作-->
         <template slot="options" slot-scope="scope">
           <el-button size="mini" type="primary" class="el-icon-edit"
-                      >编辑</el-button>
-          <el-button v-if="scope" size="mini" type="danger" class="el-icon-delete"
+                      @click="showEditDialog(scope.row)">编辑</el-button>
+          <el-popconfirm
+          title="确定此分类删除吗？"
+          @confirm="deleteCate(scope.row.cat_id)"
+          >
+            <el-button slot="reference" v-if="scope" size="mini" type="danger" class="el-icon-delete"
                       >删除</el-button>
+          </el-popconfirm>
         </template>
       </tree-table>
 <!--      分页-->
@@ -75,6 +80,22 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addCate">确 定</el-button>
+      </span>
+    </el-dialog>
+<!--    编辑商品分类对话框-->
+    <el-dialog
+      title="提示"
+      :visible.sync="editCateDialogVisible"
+      width="30%">
+      <el-form :model="editCateForm" :rules="editCateFormRules" ref="editCateFormRef"
+               label-width="100px" class="demo-ruleForm">
+        <el-form-item label="活动名称" prop="name">
+          <el-input v-model="editCateForm.cat_name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editCateDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editCate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -144,7 +165,20 @@ export default {
         checkStrictly: true
       },
       // 获取选中的父级分类key
-      selectKeys: []
+      selectKeys: [],
+      // 编辑商品分类对话框
+      editCateDialogVisible: false,
+      // 编辑商品分类表单
+      editCateForm: {
+        cat_id: '',
+        cat_name: ''
+      },
+      // 校验规则
+      editCateFormRules: {
+        cat_name: [
+          { required: true, message: '请输入上屏分类名称', trigger: 'blur' }
+        ]
+      }
     }
   },
   created () {
@@ -217,6 +251,35 @@ export default {
       this.addCateForm.cat_level = 0
       // 清空cascader
       this.selectKeys = []
+    },
+    showEditDialog (cate) {
+      // console.log(cate)
+      // 遇到一个问题，就是如果另一个管理员也在修改这个分类，那怎么保证正确呢？
+      // 这里就算是重新请求也不能解决问题
+      // 感觉还是事务的问题
+      // 应该写一个标志位，此时没人编辑该商品分类，可以编辑
+      // 按理说这里应该重新发送请求重新获取数据，但这样偷个懒也可以
+      this.editCateForm.cat_id = cate.cat_id
+      this.editCateForm.cat_name = cate.cat_name
+      this.editCateDialogVisible = true
+    },
+    // 修改商品分类
+    async editCate () {
+      const { data: res } = await this.$http.put('/categories/' + this.editCateForm.cat_id, {
+        cat_name: this.editCateForm.cat_name
+      })
+      if (res.meta.status !== 200) return this.$message.error('更新失败！' + res.meta.msg)
+      this.getcateList()
+      this.$message.success('更新成功！')
+      this.editCateDialogVisible = false
+      this.editCateForm.cat_name = ''
+    },
+    // 删除分类
+    async deleteCate (id) {
+      const { data: res } = await this.$http.delete(`categories/${id}`)
+      if (res.meta.status !== 200) return this.$message.error('删除失败' + res.meta.msg)
+      this.$message.success('删除成功！')
+      this.getcateList()
     }
 
   }
