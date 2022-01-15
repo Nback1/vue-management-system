@@ -36,7 +36,9 @@ import {
   Steps,
   CheckboxGroup,
   Checkbox,
-  Upload
+  Upload,
+  TimelineItem,
+  Timeline
 } from 'element-ui'
 import { quillEditor } from 'vue-quill-editor'
 Vue.use(Button)
@@ -76,5 +78,7 @@ Vue.use(Step)
 Vue.use(Steps)
 Vue.use(Upload)
 Vue.use(quillEditor)
+Vue.use(TimelineItem)
+Vue.use(Timeline)
 // 全局挂再到vue上，这样每一个都可以使用this访问
 Vue.prototype.$message = Message
