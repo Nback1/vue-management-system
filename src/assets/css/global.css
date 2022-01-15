@@ -43,3 +43,16 @@ el-cascader-panel {}  =》发现这才是级联选择器的面板选择器
     max-height: 200px;
     overflow-y: scroll;
 }
+.el-pagination {
+    padding-bottom: 15px;
+}
+
+.el-steps {
+    margin: 10px;
+}
+.el-step__title {
+    font-size: 13px;
+}
+.ql-editor {
+    min-height: 300px;
+}

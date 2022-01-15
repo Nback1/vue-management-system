@@ -2,8 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-import './plugins/element.js'
+// 导入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor/dist/ssr'
 
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import './plugins/element.js'
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 import TreeTable from 'vue-table-with-tree-grid'
@@ -18,8 +24,22 @@ axios.interceptors.request.use(config => {
   return config
 })
 
+Vue.use(VueQuillEditor)
 Vue.component('tree-table', TreeTable)
 Vue.config.productionTip = false
+
+Vue.filter('dateFormat', (originVal) => {
+  const dt = new Date(originVal)
+
+  const year = dt.getFullYear()
+  const month = (dt.getMonth() + '').padStart(2, '0')
+  const day = (dt.getDay() + '').padStart(2, '0')
+  const hh = (dt.getHours() + '').padStart(2, '0')
+  const mm = (dt.getMinutes() + '').padStart(2, '0')
+  const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+  return `${year}-${month}-${day} ${hh}:${mm}:${ss}`
+})
 
 new Vue({
   router,

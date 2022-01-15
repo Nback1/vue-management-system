@@ -31,9 +31,14 @@ import {
   Cascader,
   Alert,
   Tabs,
-  TabPane
+  TabPane,
+  Step,
+  Steps,
+  CheckboxGroup,
+  Checkbox,
+  Upload
 } from 'element-ui'
-
+import { quillEditor } from 'vue-quill-editor'
 Vue.use(Button)
 Vue.use(Form)
 Vue.use(FormItem)
@@ -65,5 +70,11 @@ Vue.use(Cascader)
 Vue.use(Alert)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
+Vue.use(Step)
+Vue.use(Steps)
+Vue.use(Upload)
+Vue.use(quillEditor)
 // 全局挂再到vue上，这样每一个都可以使用this访问
 Vue.prototype.$message = Message
