@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import { quillEditor } from 'vue-quill-editor'
 export default {
   name: 'Add',
   data () {
@@ -266,9 +265,6 @@ export default {
         this.$router.push('/goods')
       })
     }
-  },
-  components: {
-    quillEditor
   }
 }
 </script>

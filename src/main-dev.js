@@ -3,11 +3,15 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 // 导入富文本编辑器
-import VueQuillEditor from 'vue-quill-editor/dist/ssr'
+import VueQuillEditor from 'vue-quill-editor'
+// 导入nprogress
+import NProgress from 'nprogress'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
+import 'nprogress/nprogress.css'
 
 import './plugins/element.js'
 import './assets/css/global.css'
@@ -18,9 +22,16 @@ Vue.prototype.$http = axios
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 // 因为一些api只有登陆后才可以访问即，发送的请求的请求头中必须带有相应的token
 // 例如这个api需要带一个Authorization的键值对
+// 在request拦截器 中展示进度条
 axios.interceptors.request.use(config => {
+  NProgress.start()
   // console.log(config)
   config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
+// 在response拦截器中隐藏进度条
+axios.interceptors.response.use(config => {
+  NProgress.done()
   return config
 })
 
