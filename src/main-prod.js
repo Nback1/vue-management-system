@@ -6,14 +6,9 @@ import axios from 'axios'
 import VueQuillEditor from 'vue-quill-editor'
 // 导入nprogress
 import NProgress from 'nprogress'
+// 生产环境中不需要按需导入element-ui
+// import './plugins/element.js'
 
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-
-import 'nprogress/nprogress.css'
-
-import './plugins/element.js'
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 import TreeTable from 'vue-table-with-tree-grid'

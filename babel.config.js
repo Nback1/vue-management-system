@@ -1,7 +1,7 @@
 // 发布阶段
 const prodPlugins = []
 
-if (process.env.NOOE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   prodPlugins.push('transform-remove-console')
 }
 
@@ -17,6 +17,7 @@ module.exports = {
         styleLibraryName: 'theme-chalk'
       }
     ],
-    ...prodPlugins
+    ...prodPlugins,
+    '@babel/plugin-syntax-dynamic-import'
   ]
 }
